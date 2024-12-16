@@ -575,6 +575,22 @@ hamburger.addEventListener('click', () => {
 });
 
 
+
+    // Scroll to Top Button functionality
+window.onscroll = function() {
+  let scrollBtn = document.getElementById("scrollToTop");
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    scrollBtn.style.display = "block";
+  } else {
+    scrollBtn.style.display = "none";
+  }
+};
+
+document.getElementById("scrollToTop").onclick = function() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+    
     
     // Function to show the pop-up after 10 seconds
     setTimeout(function() {
