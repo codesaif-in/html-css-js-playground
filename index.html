@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Code Editor</title>
+
+  <!-- CodeMirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+
+  <!-- CodeMirror JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+
+  <!-- CodeMirror modes for HTML, CSS, JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script> <!-- Add htmlmixed mode -->
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .editor-container {
+      display: flex;
+      flex-wrap: wrap;
+      flex-grow: 1;
+      padding: 10px;
+      gap: 0.5rem;
+      justify-content: space-between;
+    }
+
+    /* Style for individual CodeMirror editors */
+    .CodeMirror {
+      flex: 1 1 30%;
+      margin: 5px;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+      align-self: center;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    /* Fullscreen output styling */
+    #fullScreenOutput {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    #fullScreenOutput iframe {
+      flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+
+    #closeButton {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      align-self: flex-end;
+      margin: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    #closeButton:hover {
+      background-color: #e63939;
+    }
+
+    /* Responsive Design */
+    @media only screen and (max-width: 768px) {
+      .editor-container {
+        flex-direction: row;
+        padding: 5px;
+      }
+
+      .CodeMirror {
+        height: 200px;
+        flex: 1 1 100%;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+      header {
+        font-size: 1.2rem;
+        padding: 10px;
+      }
+
+      .theme-toggle img {
+        width: 20px;
+        height: 20px;
+      }
+
+      button {
+        padding: 12px;
+        font-size: 14px;
+      }
+    }
+
+/* Notification Banner 
+.notification-banner {
+    background-color: #1e90ff;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-banner p {
+    margin: 0;
+    flex: 1;
+}
+
+.banner-link {
+    color: yellow;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.close-banner {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-banner:hover {
+    transform: scale(1.1);
+}
+*/
+/* Navbar Styles */
+.navbar {
+    background-color: #f9f9f9;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+    position: sticky;
+    top: 10px; /* Adjusted to account for the banner */
+    z-index: 1000;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+.nav-links .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links .menu li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links .menu li a:hover {
+    color: #1e90ff;
+}
+
+/* Hamburger Styles */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover span {
+    background-color: #1e90ff;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding-top: 50px;
+    text-align: center;
+    z-index: 999;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-menu ul li {
+    margin: 20px 0;
+}
+
+.mobile-menu ul li a {
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.mobile-menu ul li a:hover {
+    color: #1e90ff;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .mobile-menu.show {
+        display: block;
+    }
+}
+
+
+
+  </style>
+</head>
+<body>
+
+ <!-- Notification Banner 
+<div class="notification-banner" id="notification-banner">
+  <p>🎉 Special Offer: Get 50% off on all plans! <a href="#pricing" class="banner-link">Learn More</a></p>
+  <button class="close-banner" id="close-banner">X</button>
+</div> -->
+
+<!-- Navbar Section -->
+<header class="navbar">
+
+
+
+  <div class="navbar-container">
+      <a href="#" class="logo">Task Tracker</a>
+      <nav class="nav-links">
+          <ul class="menu">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#contact">Contact</a></li>
+          </ul>
+      </nav>
+      <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+      <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+      </ul>
+  </div>
+</header>
+
+
+
+<header> 
+  <h1>Responsive HTML, CSS, and JavaScript Code Editor</h1>
+  <button onclick="runCode()">Run Code</button>
+</header> 
+
+<div class="editor-container">
+
+
+ 
+  
+    
+    <!-- HTML, CSS, and JS editors -->
+    <textarea id="html-editor" placeholder="Write your HTML here"></textarea>
+    <textarea id="css-editor" placeholder="Write your CSS here"></textarea>
+    <textarea id="js-editor" placeholder="Write your JavaScript here"></textarea>
+  </div>
+
+ <button onclick="runCode()">Run Code</button>
+
+  <!-- Fullscreen output modal -->
+  <div id="fullScreenOutput">
+    <button id="closeButton" onclick="closeFullScreen()">Close Output</button>
+    <iframe id="output"></iframe>
+  </div>
+
+  <script>
+    // Initialize CodeMirror editors for HTML, CSS, and JS
+    var htmlEditor = CodeMirror.fromTextArea(document.getElementById("html-editor"), {
+      lineNumbers: true,
+      mode: "htmlmixed",  // Use htmlmixed for HTML (handles HTML, CSS, and JS)
+      theme: "dracula",   // Theme: Dracula
+      lineWrapping: true,
+      matchBrackets: true
+    });
+
+    var cssEditor = CodeMirror.fromTextArea(document.getElementById("css-editor"), {
+      lineNumbers: true,
+      mode: "css",  // CSS mode for CSS content
+      theme: "dracula",   // Theme: Dracula
+      lineWrapping: true,
+      matchBrackets: true
+    });
+
+    var jsEditor = CodeMirror.fromTextArea(document.getElementById("js-editor"), {
+      lineNumbers: true,
+      mode: "javascript",  // JavaScript mode for JS content
+      theme: "dracula",   // Theme: Dracula
+      lineWrapping: true,
+      matchBrackets: true
+    });
+
+    // Dummy code for each editor (HTML, CSS, JS)
+    const htmlDummyCode = `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Sample HTML</title>
+        </head>
+        <body>
+          <h1>Welcome to HTML Editor!</h1>
+          <p>This is some example HTML code.</p>
+        </body>
+      </html>
+    `;
+    
+    const cssDummyCode = `
+      body {
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      p {
+        color: #555;
+      }
+    `;
+    
+    const jsDummyCode = `
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('JavaScript is working!');
+        alert('Welcome to the JavaScript Editor!');
+      });
+    `;
+
+    // Set the dummy code to each editor
+    htmlEditor.setValue(htmlDummyCode);
+    cssEditor.setValue(cssDummyCode);
+    jsEditor.setValue(jsDummyCode);
+
+    // Function to run the code and display output
+    function runCode() {
+      const htmlContent = htmlEditor.getValue();
+      const cssContent = cssEditor.getValue();
+      const jsContent = jsEditor.getValue();
+
+      const output = document.getElementById('output');
+      const sourceCode = `
+        <html>
+          <head>
+            <style>${cssContent}</style>
+          </head>
+          <body>
+            ${htmlContent}
+            <script>${jsContent}<\/script>
+          </body>
+        </html>
+      `;
+
+      output.srcdoc = sourceCode;
+      document.getElementById('fullScreenOutput').style.display = 'flex';  // Show full screen output
+    }
+
+    function closeFullScreen() {
+      document.getElementById('fullScreenOutput').style.display = 'none';  // Hide full screen output
+    }
+
+
+
+
+    // Hamburger menu toggle functionality
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('show');
+});
+
+// Notification banner close functionality
+const closeBanner = document.getElementById('close-banner');
+const notificationBanner = document.getElementById('notification-banner');
+
+closeBanner.addEventListener('click', () => {
+    notificationBanner.style.display = 'none';
+}); 
+
+  </script>
+</body>
+</html>
