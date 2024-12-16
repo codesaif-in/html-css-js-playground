@@ -5,10 +5,10 @@ Welcome to the **HTML, CSS, and JS Playground**, an online tool to write and tes
 ### **Try it Now!** 🔥
 
 Click the button below to start using the tool html editor and preview:
-<p align="center">
+
 [![Try it out](https://img.shields.io/badge/Try%20It%20Out-Click%20Here-blue)](https://codesaif-in.github.io/html-css-js-playground/)
-</p>
----
+
+
 
 ### **Features** ✨
 
