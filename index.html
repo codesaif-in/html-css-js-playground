@@ -334,6 +334,26 @@
     }
 }
 
+    /* Scroll to Top Button */
+.scroll-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+}
+
+.scroll-btn:hover {
+  background-color: #0066cc;
+}
+
+
 
 
   </style>
@@ -354,7 +374,7 @@
               <li><a href="#home">Home</a></li>
               <li><a href="#features">Features</a></li>
               <li><a href="#pricing">Pricing</a></li>
-              <li><a href="t.me/spy_xyz">Contact</a></li>
+              <li><a href="contact">Contact</a></li>
           </ul>
       </nav>
       <div class="hamburger" id="hamburger">
@@ -404,9 +424,9 @@
   <!-- Features Section -->
   <section id="features" style="padding: 60px 20px; text-align: center; background-color: #f9f9f9;">
     <div style="max-width: 800px; margin: 0 auto;">
-      <h2 style="color: #333;">Features</h2>
+      <h2 style="color: #333;">Features ✨</h2>
       <p style="font-size: 16px; color: #555;">Our tools are designed to make web development and learning easier and more efficient.</p>
-      <ul style="list-style-type: square; padding-left: 40px; color: #555;">
+      <ul style="list-style-type: square; list-style-type: none;  padding-left: 0; padding-left: 40px; color: #555;">
         <li>Real-time code editor (HTML, CSS, JavaScript)</li>
         <li>Interactive preview for instant results</li>
         <li>Simple and user-friendly interface</li>
@@ -429,15 +449,17 @@
     <div style="max-width: 800px; margin: 0 auto;">
       <h2 style="color: #333;">Contact Us</h2>
       <p style="font-size: 16px; color: #555;">If you have any questions or need support, feel free to contact us:</p>
-      <p><a href="t.me/spy_xyz" target="_blank" style="color: #1e90ff; font-weight: bold;">Join our Telegram</a></p>
+      <p><a href="t.me/spy_xyz" target="_blank" style="color: #1e90ff; font-weight: bold;">contact me</a></p>
     </div>
   </section>
 
   <!-- Footer Section -->
-  <footer style="background-color: #333; color: #fff; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+  <footer style="background-color: #333; color: #fff; text-align: center; padding: 10px; bottom: 0; width: 100%;">
     <p>&copy; 2024 codesaif. All Rights Reserved.</p>
   </footer>
   
+  <!-- Scroll to Top Button -->
+  <button id="scrollToTop" class="scroll-btn">↑</button>
 
   <!-- Fullscreen output modal -->
   <div id="fullScreenOutput">
