@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="description" content="Web Development Tools by CodeSaif. HTML, CSS, JS Editor and more utilities for developers.">
+  <meta name="keywords" content="web tools, HTML editor, CSS editor, JS editor, web development, tools for developers, CodeSaif">
+  <meta name="author" content="CodeSaif">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Code Editor</title>
-
+  <title>html css js editor preview Tools by CodeSaif</title>
   <!-- CodeMirror CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
@@ -146,47 +148,76 @@
       }
     }
 
-/* Notification Banner 
-.notification-banner {
-    background-color: #1e90ff;
-    color: white;
-    text-align: center;
-    padding: 10px 20px;
-    font-size: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 1001;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
 
-.notification-banner p {
-    margin: 0;
-    flex: 1;
-}
+ #popupAd {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff5722;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            animation: slideUp 0.5s ease-out;
+        }
 
-.banner-link {
-    color: yellow;
-    font-weight: bold;
-    text-decoration: underline;
-}
+        /* Add animation to slide-up the pop-up */
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
 
-.close-banner {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
+        /* Close button style */
+        #closeBtn {
+            background: transparent;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+        }
 
-.close-banner:hover {
-    transform: scale(1.1);
-}
-*/
+        #closeBtn:hover {
+            color: #ffeb3b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #popupAd {
+                width: 85%;
+            }
+        }
+
+        /* Button style for the ad */
+        .promo-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ffeb3b;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .promo-link:hover {
+            color: #ffffff;
+        }
+
+    
+
 /* Navbar Styles */
 .navbar {
     background-color: #f9f9f9;
@@ -309,11 +340,7 @@
 </head>
 <body>
 
- <!-- Notification Banner 
-<div class="notification-banner" id="notification-banner">
-  <p>🎉 Special Offer: Get 50% off on all plans! <a href="#pricing" class="banner-link">Learn More</a></p>
-  <button class="close-banner" id="close-banner">X</button>
-</div> -->
+
 
 <!-- Navbar Section -->
 <header class="navbar">
@@ -354,12 +381,15 @@
   <button onclick="runCode()">Run Code</button>
 </header> 
 
+  <!-- Pop-up Ad HTML -->
+<div id="popupAd">
+    <button id="closeBtn">&times;</button>
+    <p><strong>Explore more premium tools at <a href="https://codesaif.in/tools" class="promo-link" target="_blank">codesaif.in/tools</a></strong></p>
+    <p>100% Free Web Tools, SEO Tools, and More Resources!</p>
+</div>
+  
 <div class="editor-container">
 
-
- 
-  
-    
     <!-- HTML, CSS, and JS editors -->
     <textarea id="html-editor" placeholder="Write your HTML here"></textarea>
     <textarea id="css-editor" placeholder="Write your CSS here"></textarea>
@@ -481,13 +511,17 @@ hamburger.addEventListener('click', () => {
     mobileMenu.classList.toggle('show');
 });
 
-// Notification banner close functionality
-const closeBanner = document.getElementById('close-banner');
-const notificationBanner = document.getElementById('notification-banner');
 
-closeBanner.addEventListener('click', () => {
-    notificationBanner.style.display = 'none';
-}); 
+    
+    // Function to show the pop-up after 10 seconds
+    setTimeout(function() {
+        document.getElementById('popupAd').style.display = 'block';
+    }, 10000);  // 10000ms = 10 seconds
+
+    // Close the pop-up when the close button is clicked
+    document.getElementById('closeBtn').addEventListener('click', function() {
+        document.getElementById('popupAd').style.display = 'none';
+    });
 
   </script>
 </body>
