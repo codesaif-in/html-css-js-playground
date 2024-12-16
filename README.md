@@ -2,6 +2,12 @@
 
 Welcome to the **HTML, CSS, and JS Playground**, an online tool to write and test your HTML, CSS, and JavaScript code in real-time. This tool lets you experiment with code and preview live results as you work.
 
+### **Try it Now!** 🔥
+
+Click the button below to start using the tool html editor and preview:
+<p align="center">
+[![Try it out](https://img.shields.io/badge/Try%20It%20Out-Click%20Here-blue)](https://codesaif-in.github.io/html-css-js-playground/)
+</p>
 ---
 
 ### **Features** ✨
@@ -13,13 +19,6 @@ Welcome to the **HTML, CSS, and JS Playground**, an online tool to write and tes
 
 ---
 
-### **Try it Now!** 🔥
-
-Click the button below to start using the tool:
-
-[![Try it out](https://img.shields.io/badge/Try%20It%20Out-Click%20Here-blue)](https://codesaif-in.github.io/html-css-js-playground/)
-
----
 
 ### **Connect with Us** 💬
 
@@ -33,7 +32,7 @@ Stay connected and explore more of our tools and resources!
   <a href="https://codesaif.in" target="_blank">
     <img src="https://img.shields.io/badge/Official%20Website-codesaif.in-blue?style=for-the-badge" alt="Official Website">
   </a>
-  <a href="https://t.me/codessaif_group" target="_blank">
+  <a href="https://t.me/codesaif_group" target="_blank">
     <img src="https://img.shields.io/badge/Telegram-Join%20Us-blue?style=for-the-badge" alt="Telegram">
   </a>
   <a href="https://instagram.com/codesaif.in" target="_blank">
